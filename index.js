@@ -91,6 +91,7 @@ function drawPlayerShell() {
       w: 10,
       h: 20,
     });
+    
 }
 }
 
@@ -104,7 +105,10 @@ function drawShell(shell) {
 function draw() {
   background("green");
   playerTank();
+  drawPlayerShell(shells) {
+    shells.forEach
 
+  }
 
  
 
@@ -130,3 +134,6 @@ function draw() {
 //     });
 //   });
 // });
+
+
+// https://github.com/processing/p5.js/wiki/Positioning-your-canvas

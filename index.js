@@ -5,8 +5,8 @@ let TankX = 180;
 let TankY = 500;
 let SPACE_BAR = 32;
 
-let shellX = TankX + 50 / 2;
-let shellY = TankY + 50 / 2;
+let shellX = 50 / 2 + TankX;
+let shellY = 50 / 2 + TankY;
 
 function setup() {
   createCanvas(400, 600);
@@ -47,6 +47,31 @@ function playerTank() {
   if (keyIsDown(DOWN_ARROW)) {
     TankY += speed;
   }
+  if (keyIsDown(32)) {
+    playerShells.push({
+      x: 50 / 2 + TankX,
+      y: 50 / 2 + TankY,
+      w: 10,
+      h: 10,
+    });
+  }
+}
+
+// function playerFires() {
+//   if (keyIsDown(32)) {
+//     playerShells.push({
+//       x: shellX,
+//       y: shellY,
+//       w: 10,
+//       h: 20,
+//     });
+//   }
+// }
+
+function drawPlayerShell(shell) {
+  fill("red");
+  rect(shell.x, shell.y, shell.w, shell.h);
+  shell.y -= speed;
 }
 
 function drawEnemyTank(enemy) {
@@ -74,27 +99,6 @@ function enemyFire(number) {
   });
 }
 
-// function playerFire(shell) {
-//   playerShells.push({
-//     x: shellX,
-//     y: shellY,
-//     w: 10,
-//     h: 20,
-//   });
-// }
-
-function drawPlayerShell() {
-  if (keyIsDown(32)) {
-    playerShells.push({
-      x: shellX,
-      y: shellY,
-      w: 10,
-      h: 20,
-    });
-    
-}
-}
-
 function drawShell(shell) {
   fill("red");
   rect(shell.x, shell.y, 10, 20);
@@ -105,12 +109,10 @@ function drawShell(shell) {
 function draw() {
   background("green");
   playerTank();
-  drawPlayerShell(shells) {
-    shells.forEach
 
-  }
-
- 
+  playerShells.forEach((shell) => {
+    drawPlayerShell(shell);
+  });
 
   enemies = enemies.filter((enemy) => {
     drawEnemyTank(enemy);
@@ -124,16 +126,5 @@ function draw() {
     return true;
   });
 }
-
-// let enemyBtn = document.getElementById("enemyBtn");
-// enemyBtn.addEventListener("click", () => {
-//   enemies.forEach((enemy) => {
-//     enemy.shells.push({
-//       x: 45 / 2 + enemy.x,
-//       y: 45 / 2 + enemy.y,
-//     });
-//   });
-// });
-
 
 // https://github.com/processing/p5.js/wiki/Positioning-your-canvas

@@ -2,4 +2,18 @@ body {
   margin: 0;
   padding: 0;
   overflow-y: hidden;
+  display: flex;
+
+  /* This centers our sketch horizontally. */
+  justify-content: center;
+
+  /* This centers our sketch vertically. */
+  align-items: center;
+  background-image: url(/su-san-lee-g3PyXO4A0yc-unsplash.jpg);
 }
+
+/* #background {
+  background-image: url(/yoal-desurmont-jqgsM3B9Fpo-unsplash.jpg);
+  width: 800px;
+  height: 1200px;
+} */

@@ -74,15 +74,24 @@ function enemyFire(number) {
   });
 }
 
-function playerShell() {
-  if (keyIsDown(32)) {
-    fill("red");
-    rect(shellX, shellY, 10, 20);
+// function playerFire(shell) {
+//   playerShells.push({
+//     x: shellX,
+//     y: shellY,
+//     w: 10,
+//     h: 20,
+//   });
+// }
 
-    if (keyIsPressed) {
-      shellY -= speed;
-    }
-  }
+function drawPlayerShell() {
+  if (keyIsDown(32)) {
+    playerShells.push({
+      x: shellX,
+      y: shellY,
+      w: 10,
+      h: 20,
+    });
+}
 }
 
 function drawShell(shell) {
@@ -91,10 +100,13 @@ function drawShell(shell) {
   shell.y += 2 * speed;
 }
 
+//p5 Draw function
 function draw() {
   background("green");
   playerTank();
-  playerShell();
+
+
+ 
 
   enemies = enemies.filter((enemy) => {
     drawEnemyTank(enemy);

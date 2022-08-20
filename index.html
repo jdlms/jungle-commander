@@ -4,12 +4,29 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Roboto:wght@100&display=swap"
+      rel="stylesheet"
+    />
+
     <title>Jungle Commander</title>
     <link rel="stylesheet" href="/style.css" />
   </head>
   <body>
-    <div><button id="enemyBtn">Press Me</button></div>
-    <div id="page-background"></div>
+    <div id="game-begin">
+      <h1>Jungle Commander</h1>
+      <!-- <img src="./images/logo.png" alt="" class="logo-img" /> -->
+      <br />
+      <button id="start-button">Start Game</button>
+      <p>[insert instruction text]</p>
+      <!-- <img src="./images/arrows.png" alt="" class="arrows-img" /> -->
+    </div>
+
+    <div id="game-screen" class="hidden"></div>
+
+    <!-- <div><button id="enemyBtn">Press Me</button></div> -->
 
     <script src="https://cdn.jsdelivr.net/npm/p5@1.4.2/lib/p5.js"></script>
     <script src="index.js"></script>

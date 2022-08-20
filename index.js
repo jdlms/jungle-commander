@@ -9,21 +9,25 @@ let shellX = 50 / 2 + TankX;
 let shellY = 50 / 2 + TankY;
 
 function setup() {
-  createCanvas(400, 600);
-  speed = 3;
+  const canvas = createCanvas(400, 600);
+  canvas.parent("game-screen");
+
+  frameRate(30);
+  speed = 2.5;
   translatedX = 100;
-  setInterval(() => {
-    spawnEnemies(4);
-  }, 3000);
-  setInterval(() => {
-    enemyFire(6);
-  }, 1000);
-  loop();
+  // setInterval(() => {
+  //   spawnEnemies(4);
+  // }, 3000);
+  // setInterval(() => {
+  //   enemyFire(6);
+  // }, 1000);
+  // loop();
 }
 
 function playerTank() {
   fill("rgb(135, 62, 35)");
   noStroke();
+  square(TankX, TankY, 50);
   square(TankX, TankY, 50);
 
   if (TankX > 420) {
@@ -47,7 +51,10 @@ function playerTank() {
   if (keyIsDown(DOWN_ARROW)) {
     TankY += speed;
   }
-  if (keyIsDown(32)) {
+}
+
+function keyPressed() {
+  if (keyCode === 32) {
     playerShells.push({
       x: 50 / 2 + TankX,
       y: 50 / 2 + TankY,
@@ -57,21 +64,10 @@ function playerTank() {
   }
 }
 
-// function playerFires() {
-//   if (keyIsDown(32)) {
-//     playerShells.push({
-//       x: shellX,
-//       y: shellY,
-//       w: 10,
-//       h: 20,
-//     });
-//   }
-// }
-
 function drawPlayerShell(shell) {
   fill("red");
   rect(shell.x, shell.y, shell.w, shell.h);
-  shell.y -= speed;
+  shell.y -= 3 * speed;
 }
 
 function drawEnemyTank(enemy) {
@@ -102,13 +98,16 @@ function enemyFire(number) {
 function drawShell(shell) {
   fill("red");
   rect(shell.x, shell.y, 10, 20);
-  shell.y += 2 * speed;
+  shell.y += 3 * speed;
 }
 
 //p5 Draw function
 function draw() {
   background("green");
   playerTank();
+  if (keyIsDown(32)) {
+    keyPressed();
+  }
 
   playerShells.forEach((shell) => {
     drawPlayerShell(shell);
@@ -116,7 +115,7 @@ function draw() {
 
   enemies = enemies.filter((enemy) => {
     drawEnemyTank(enemy);
-    enemy.shells.forEach((shell) => {
+    shells = enemy.shells.forEach((shell) => {
       drawShell(shell);
       //how to filter out the enemy shells in this function?
     });
@@ -125,6 +124,48 @@ function draw() {
     }
     return true;
   });
+
+  // collision = collisionBetweenTwoRectangles(shell, enemy);
+  // if (collision) {
+  //   gameOver();
+  // }
 }
 
+function collisionBetweenTwoRectangles(rect1, rect2) {
+  return (
+    rect1.x < rect2.x + rect2.w &&
+    rect1.x + rect1.w > rect2.x &&
+    rect1.y < rect2.y + rect2.h &&
+    rect1.h + rect1.y > rect2.y
+  );
+}
+
+window.onload = () => {
+  document.getElementById("start-button").onclick = () => {
+    startGame();
+  };
+};
+
+function startGame() {
+  document.getElementById("game-begin").remove();
+  // document.getElementById("game-begin").classList.add("hidden");
+  document.getElementById("game-screen").classList.toggle("hidden");
+  setInterval(() => {
+    spawnEnemies(4);
+  }, 3000);
+  setInterval(() => {
+    enemyFire(6);
+  }, 1000);
+  loop();
+}
+
+if (keyIsDown(27)) {
+  console.log("hi there");
+  document.getElementById("game-begin").classList.remove("hidden");
+  document.getElementById("game-screen").classList.toggle("hidden");
+}
+
+function gameOver() {
+  noLoop();
+}
 // https://github.com/processing/p5.js/wiki/Positioning-your-canvas

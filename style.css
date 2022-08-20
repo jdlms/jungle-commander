@@ -41,3 +41,7 @@ body button {
 .hidden {
   display: none;
 }
+
+#game-begin.hidden {
+  display: none;
+}

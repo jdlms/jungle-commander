@@ -11,17 +11,9 @@ let shellY = 50 / 2 + TankY;
 function setup() {
   const canvas = createCanvas(400, 600);
   canvas.parent("game-screen");
-
   frameRate(30);
   speed = 2.5;
   translatedX = 100;
-  // setInterval(() => {
-  //   spawnEnemies(4);
-  // }, 3000);
-  // setInterval(() => {
-  //   enemyFire(6);
-  // }, 1000);
-  // loop();
 }
 
 function playerTank() {
@@ -59,7 +51,7 @@ function keyPressed() {
       x: 50 / 2 + TankX,
       y: 50 / 2 + TankY,
       w: 10,
-      h: 10,
+      h: 20,
     });
   }
 }
@@ -82,6 +74,8 @@ function spawnEnemies(number) {
   enemies.push({
     x: random(0, width),
     y: 0,
+    w: 45,
+    h: 45,
     shells: [],
   });
 }
@@ -91,6 +85,8 @@ function enemyFire(number) {
     enemy.shells.push({
       x: 45 / 2 + enemy.x,
       y: 45 / 2 + enemy.y,
+      w: 10,
+      h: 20,
     });
   });
 }
@@ -105,9 +101,6 @@ function drawShell(shell) {
 function draw() {
   background("green");
   playerTank();
-  if (keyIsDown(32)) {
-    keyPressed();
-  }
 
   playerShells.forEach((shell) => {
     drawPlayerShell(shell);
@@ -115,7 +108,17 @@ function draw() {
 
   enemies = enemies.filter((enemy) => {
     drawEnemyTank(enemy);
-    shells = enemy.shells.forEach((shell) => {
+    enemy.shells.forEach((shell) => {
+      const collision = collisionBetweenTwoRectangles(shell, {
+        x: TankX,
+        y: TankY,
+        w: 50,
+        h: 50,
+      });
+
+      if (collision) {
+        gameOver();
+      }
       drawShell(shell);
       //how to filter out the enemy shells in this function?
     });
@@ -124,11 +127,6 @@ function draw() {
     }
     return true;
   });
-
-  // collision = collisionBetweenTwoRectangles(shell, enemy);
-  // if (collision) {
-  //   gameOver();
-  // }
 }
 
 function collisionBetweenTwoRectangles(rect1, rect2) {
@@ -147,25 +145,25 @@ window.onload = () => {
 };
 
 function startGame() {
-  document.getElementById("game-begin").remove();
-  // document.getElementById("game-begin").classList.add("hidden");
+  document.getElementById("game-begin").classList.add("hidden");
   document.getElementById("game-screen").classList.toggle("hidden");
   setInterval(() => {
-    spawnEnemies(4);
+    spawnEnemies(6);
   }, 3000);
   setInterval(() => {
-    enemyFire(6);
-  }, 1000);
+    enemyFire(4);
+  }, 1500);
   loop();
 }
 
-if (keyIsDown(27)) {
-  console.log("hi there");
-  document.getElementById("game-begin").classList.remove("hidden");
-  document.getElementById("game-screen").classList.toggle("hidden");
-}
+// if (keyIsDown(27)) {
+//   console.log("hi there");
+//   document.getElementById("game-begin").classList.remove("hidden");
+//   document.getElementById("game-screen").classList.toggle("hidden");
+// }
 
 function gameOver() {
   noLoop();
+  console.log("hello");
 }
 // https://github.com/processing/p5.js/wiki/Positioning-your-canvas

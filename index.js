@@ -62,6 +62,7 @@ function drawPlayerShell(shell) {
   shell.y -= 3 * speed;
 }
 
+//enemies
 function drawEnemyTank(enemy) {
   fill("black");
   noStroke();
@@ -101,6 +102,8 @@ function drawShell(shell) {
 function draw() {
   background("green");
   playerTank();
+
+  //I have collision between enemy shell and player, now I need it between player shell and enemy
 
   playerShells.forEach((shell) => {
     drawPlayerShell(shell);

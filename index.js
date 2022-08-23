@@ -80,6 +80,8 @@ function drawPlayerShell(shell) {
   shell.y -= 3 * speed;
 }
 
+function drawPlayerExplosion() {}
+
 //enemies
 function drawEnemyTank(enemy) {
   fill("black");
@@ -91,7 +93,7 @@ function drawEnemyTank(enemy) {
 
 function spawnEnemies(number) {
   enemies.push({
-    x: random(0, width),
+    x: random(0, 350),
     y: 0,
     w: 45,
     h: 45,
@@ -123,8 +125,13 @@ function draw() {
 
   //I have collision between enemy shell and player, now I need it between player shell and enemy
 
-  playerShells.forEach((shell) => {
+  playerShells = playerShells.filter((shell) => {
     drawPlayerShell(shell);
+    console.log(shell);
+    if (shell.y <= -1) {
+      return false;
+    }
+    return true;
   });
 
   enemies = enemies.filter((enemy) => {

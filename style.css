@@ -1,5 +1,5 @@
 body {
-  height: 80vh;
+  height: 100vh;
 
   /* margin: 0;
   padding: 0; */
@@ -26,6 +26,27 @@ h1 {
   background-color: red;
   border-radius: 8%;
 }
+
+#gameover {
+  height: 40vh;
+  width: 40vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: red;
+  border-radius: 8%;
+  font-family: "Black Ops One";
+  font-size: 30px;
+}
+
+/* #display-clock {
+  display: flex;
+
+  font-family: "Black Ops One";
+  font-size: 30px;
+} */
+
 body button {
   font-size: 20px;
   background-color: #870007;
@@ -45,3 +66,11 @@ body button {
 #game-begin.hidden {
   display: none;
 }
+
+#gameover.hidden {
+  display: none;
+}
+
+/* #display-clock.hidden {
+  display: none;
+} */

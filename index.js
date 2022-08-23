@@ -1,3 +1,4 @@
+//game item declarations
 let playerShells = [];
 let enemies = [];
 let enemyShells = [];
@@ -5,11 +6,28 @@ let TankX = 180;
 let TankY = 500;
 let SPACE_BAR = 32;
 
-let shellX = 50 / 2 + TankX;
-let shellY = 50 / 2 + TankY;
+// let shellX = 50 / 2 + TankX;
+// let shellY = 50 / 2 + TankY;
 
+//clock declarations
+const clock = new Clock();
+let minDec = document.getElementById("minDec");
+let minUni = document.getElementById("minUni");
+let secDec = document.getElementById("secDec");
+let secUni = document.getElementById("secUni");
+
+//sound declarations
+let soundtrack;
+
+function preload() {
+  soundFormats("mp3");
+  soundtrack = loadSound("background_music.mp3");
+}
+
+//p5 setup
 function setup() {
   const canvas = createCanvas(400, 600);
+  // canvas.mousePressed(canvasPressed);
   canvas.parent("game-screen");
   frameRate(30);
   speed = 2.5;
@@ -111,6 +129,16 @@ function draw() {
 
   enemies = enemies.filter((enemy) => {
     drawEnemyTank(enemy);
+    const collision = collisionBetweenTwoRectangles(enemy, {
+      x: TankX,
+      y: TankY,
+      w: 50,
+      h: 50,
+    });
+
+    if (collision) {
+      gameOver();
+    }
     enemy.shells.forEach((shell) => {
       const collision = collisionBetweenTwoRectangles(shell, {
         x: TankX,
@@ -144,12 +172,17 @@ function collisionBetweenTwoRectangles(rect1, rect2) {
 window.onload = () => {
   document.getElementById("start-button").onclick = () => {
     startGame();
+    soundtrack.loop();
   };
 };
 
 function startGame() {
   document.getElementById("game-begin").classList.add("hidden");
   document.getElementById("game-screen").classList.toggle("hidden");
+
+  //start clock
+  clock.start(printClock);
+
   setInterval(() => {
     spawnEnemies(6);
   }, 3000);
@@ -159,14 +192,32 @@ function startGame() {
   loop();
 }
 
-// if (keyIsDown(27)) {
-//   console.log("hi there");
-//   document.getElementById("game-begin").classList.remove("hidden");
-//   document.getElementById("game-screen").classList.toggle("hidden");
-// }
+function printClock() {
+  printMinutes();
+  printSeconds();
+}
+
+function printMinutes() {
+  minUni.innerHTML = clock.computeTwoDigitNumber(clock.getMinutes())[1];
+  minDec.innerHTML = clock.computeTwoDigitNumber(clock.getMinutes())[0];
+}
+
+function printSeconds() {
+  secUni.innerHTML = clock.computeTwoDigitNumber(clock.getSeconds())[1];
+  secDec.innerHTML = clock.computeTwoDigitNumber(clock.getSeconds())[0];
+}
 
 function gameOver() {
+  background("red");
+  //why is this not turning all blocks red, just the first one?
   noLoop();
-  console.log("hello");
+  clock.stop();
+  setTimeout(() => {
+    soundtrack.stop();
+    document.getElementById("game-screen").classList.toggle("hidden");
+    document.getElementById("gameover").classList.toggle("hidden");
+    let displayClock = document.getElementById("gameover");
+    displayClock.innerHTML = clock.split();
+  }, 1000);
 }
 // https://github.com/processing/p5.js/wiki/Positioning-your-canvas

@@ -24,11 +24,29 @@
       <!-- <img src="./images/arrows.png" alt="" class="arrows-img" /> -->
     </div>
 
+    <div id="clock" class="hidden">
+      <span id="minDec" class="number">0</span
+      ><span id="minUni" class="number">0</span><span>:</span
+      ><span id="secDec" class="number">0</span
+      ><span id="secUni" class="number">0</span>
+    </div>
+
+    <div id="gameover" class="hidden">
+      <div id="display-clock" class="hidden"></div>
+    </div>
+
     <div id="game-screen" class="hidden"></div>
 
     <!-- <div><button id="enemyBtn">Press Me</button></div> -->
 
     <script src="https://cdn.jsdelivr.net/npm/p5@1.4.2/lib/p5.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/addons/p5.sound.js"
+      integrity="sha512-TU9AWtV5uUZPX8dbBAH8NQF1tSdigPRRT82vllAQ1Ke28puiqLA6ZVKxtUGlgrH6yWFnkKy+sE6luNEGH9ar0A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="clock.js"></script>
     <script src="index.js"></script>
   </body>
 </html>

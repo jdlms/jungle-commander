@@ -45,3 +45,18 @@ class Clock {
     }
   }
 }
+
+function printClock() {
+  printMinutes();
+  printSeconds();
+}
+
+function printMinutes() {
+  minUni.innerHTML = clock.computeTwoDigitNumber(clock.getMinutes())[1];
+  minDec.innerHTML = clock.computeTwoDigitNumber(clock.getMinutes())[0];
+}
+
+function printSeconds() {
+  secUni.innerHTML = clock.computeTwoDigitNumber(clock.getSeconds())[1];
+  secDec.innerHTML = clock.computeTwoDigitNumber(clock.getSeconds())[0];
+}

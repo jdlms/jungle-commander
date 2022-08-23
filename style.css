@@ -1,14 +1,25 @@
 body {
   height: 100vh;
-
   /* margin: 0;
   padding: 0; */
   overflow-y: hidden;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-image: url(/su-san-lee-g3PyXO4A0yc-unsplash.jpg);
+  background-image: url(su-san-lee-g3PyXO4A0yc-unsplash.jpg);
+}
+
+#game-begin {
+  height: 40vh;
+  width: 45vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: red;
+  border-radius: 8%;
 }
 
 h1 {
@@ -16,36 +27,25 @@ h1 {
   font-size: 50px;
 }
 
-#game-begin {
-  height: 40vh;
-  width: 40vw;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: red;
-  border-radius: 8%;
-}
-
 #gameover {
-  height: 40vh;
-  width: 40vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  height: 40vh;
+  width: 600vw;
   background-color: red;
   border-radius: 8%;
   font-family: "Black Ops One";
   font-size: 30px;
 }
 
-/* #display-clock {
+#display-clock {
   display: flex;
-
-  font-family: "Black Ops One";
-  font-size: 30px;
-} */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
 body button {
   font-size: 20px;

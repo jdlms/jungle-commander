@@ -5,6 +5,8 @@ let enemyShells = [];
 let TankX = 180;
 let TankY = 500;
 let SPACE_BAR = 32;
+let imgExplosion;
+let imgPlayer;
 
 // let shellX = 50 / 2 + TankX;
 // let shellY = 50 / 2 + TankY;
@@ -22,6 +24,8 @@ let soundtrack;
 function preload() {
   soundFormats("mp3");
   soundtrack = loadSound("background_music.mp3");
+  imgExplosion = loadImage("explosion.png");
+  imgPlayer = loadImage("player-tank.png");
 }
 
 //p5 setup
@@ -31,14 +35,11 @@ function setup() {
   canvas.parent("game-screen");
   frameRate(30);
   speed = 2.5;
-  translatedX = 100;
+  // translatedX = 100;
 }
 
 function playerTank() {
-  fill("rgb(135, 62, 35)");
-  noStroke();
-  square(TankX, TankY, 50);
-  square(TankX, TankY, 50);
+  image(imgPlayer, TankX, TankY, 70, 70);
 
   if (TankX > 420) {
     TankX = -50;
@@ -118,16 +119,22 @@ function drawShell(shell) {
   shell.y += 3 * speed;
 }
 
-//p5 Draw function
+//**p5 Draw function**\\
+//                     \\
 function draw() {
   background("green");
   playerTank();
 
-  //I have collision between enemy shell and player, now I need it between player shell and enemy
-
   playerShells = playerShells.filter((shell) => {
     drawPlayerShell(shell);
-    console.log(shell);
+    enemies.filter((enemy) => {
+      const collision = collisionBetweenTwoRectangles(enemy, shell);
+
+      if (collision) {
+        image(imgExplosion, shell.x, shell.y, 80, 80);
+      }
+    });
+
     if (shell.y <= -1) {
       return false;
     }
@@ -144,7 +151,10 @@ function draw() {
     });
 
     if (collision) {
-      gameOver();
+      image(imgExplosion, TankX, TankY, 80, 80);
+      setTimeout(() => {
+        gameOver();
+      }, 300);
     }
     enemy.shells.forEach((shell) => {
       const collision = collisionBetweenTwoRectangles(shell, {
@@ -155,7 +165,10 @@ function draw() {
       });
 
       if (collision) {
-        gameOver();
+        image(imgExplosion, TankX, TankY, 80, 80);
+        setTimeout(() => {
+          gameOver();
+        }, 300);
       }
       drawShell(shell);
       //how to filter out the enemy shells in this function?
@@ -165,15 +178,6 @@ function draw() {
     }
     return true;
   });
-}
-
-function collisionBetweenTwoRectangles(rect1, rect2) {
-  return (
-    rect1.x < rect2.x + rect2.w &&
-    rect1.x + rect1.w > rect2.x &&
-    rect1.y < rect2.y + rect2.h &&
-    rect1.h + rect1.y > rect2.y
-  );
 }
 
 window.onload = () => {
@@ -199,21 +203,6 @@ function startGame() {
   loop();
 }
 
-function printClock() {
-  printMinutes();
-  printSeconds();
-}
-
-function printMinutes() {
-  minUni.innerHTML = clock.computeTwoDigitNumber(clock.getMinutes())[1];
-  minDec.innerHTML = clock.computeTwoDigitNumber(clock.getMinutes())[0];
-}
-
-function printSeconds() {
-  secUni.innerHTML = clock.computeTwoDigitNumber(clock.getSeconds())[1];
-  secDec.innerHTML = clock.computeTwoDigitNumber(clock.getSeconds())[0];
-}
-
 function gameOver() {
   background("red");
   //why is this not turning all blocks red, just the first one?
@@ -227,4 +216,12 @@ function gameOver() {
     displayClock.innerHTML = clock.split();
   }, 1000);
 }
-// https://github.com/processing/p5.js/wiki/Positioning-your-canvas
+
+function collisionBetweenTwoRectangles(rect1, rect2) {
+  return (
+    rect1.x < rect2.x + rect2.w &&
+    rect1.x + rect1.w > rect2.x &&
+    rect1.y < rect2.y + rect2.h &&
+    rect1.h + rect1.y > rect2.y
+  );
+}

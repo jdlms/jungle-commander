@@ -9,6 +9,7 @@ let imgExplosion;
 let imgPlayer;
 let enemyImages;
 let enemyImg;
+let count = 0;
 
 //clock declarations
 const clock = new Clock();
@@ -127,6 +128,7 @@ function drawShell(shell) {
   shell.y += 3 * speed;
 }
 
+//                   \\
 //**p5 Draw function**\\
 //                     \\
 function draw() {
@@ -140,12 +142,13 @@ function draw() {
       const collision = collisionBetweenTwoRectangles(enemy, shell);
 
       if (collision) {
-        image(imgExplosion, shell.x, shell.y, 80, 80);
+        image(imgExplosion, 45 / 2 + enemy.x, 45 / 2 + enemy.y, 95, 95);
         splatSound.play();
-        // enemies.slice(hitEnemy);
-        // console.log(enemies.findIndex());
-        console.log(enemy);
-        console.log(enemies);
+        let hitEnemy = enemies.indexOf(enemy);
+        enemies.splice(hitEnemy, 1);
+        shell.y = false;
+        shell.x = false;
+        count++
       }
     });
 
@@ -165,10 +168,13 @@ function draw() {
     });
 
     if (collision) {
-      image(imgExplosion, TankX, TankY, 80, 80);
-      setTimeout(() => {
-        gameOver();
-      }, 300);
+      image(imgExplosion, enemy.x, enemy.y, 80, 80);
+      // console.log(enemies)
+      // let hitEnemy = enemies.indexOf(enemy);
+      // enemies.splice(hitEnemy, 1);
+      splatSound.play();
+      gameOver();
+      
     }
     enemy.shells.forEach((shell) => {
       const collision = collisionBetweenTwoRectangles(shell, {
@@ -180,9 +186,7 @@ function draw() {
 
       if (collision) {
         image(imgExplosion, TankX, TankY, 80, 80);
-        setTimeout(() => {
-          gameOver();
-        }, 300);
+        gameOver();
       }
       drawShell(shell);
     });
@@ -208,8 +212,8 @@ function startGame() {
   clock.start(printClock);
 
   setInterval(() => {
-    spawnEnemies(6);
-  }, 2400);
+    spawnEnemies(9);
+  }, 1400);
   setInterval(() => {
     enemyFire(4);
   }, 1500);
@@ -218,7 +222,6 @@ function startGame() {
 
 function gameOver() {
   background("red");
-  //why is this not turning all blocks red, just the first one?
   noLoop();
   clock.stop();
   setTimeout(() => {

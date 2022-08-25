@@ -1,7 +1,5 @@
 body {
   height: 100vh;
-  /* margin: 0;
-  padding: 0; */
   overflow-y: hidden;
   overflow-x: hidden;
   display: flex;
@@ -30,6 +28,13 @@ body {
 h1 {
   font-family: "Black Ops One";
   font-size: 50px;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+#tank-shell {
+  width: 20%;
+  height: auto;
 }
 
 #gameover {
@@ -75,7 +80,3 @@ body button {
 #gameover.hidden {
   display: none;
 }
-
-/* #display-clock.hidden {
-  display: none;
-} */

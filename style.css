@@ -8,7 +8,12 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-image: url(su-san-lee-g3PyXO4A0yc-unsplash.jpg);
+  background-image: url(images/su-san-lee-g3PyXO4A0yc-unsplash.jpg);
+}
+
+.p5Canvas {
+  width: auto !important;
+  height: 100vh !important;
 }
 
 #game-begin {

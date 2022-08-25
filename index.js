@@ -7,9 +7,8 @@ let TankY = 500;
 let SPACE_BAR = 32;
 let imgExplosion;
 let imgPlayer;
-
-// let shellX = 50 / 2 + TankX;
-// let shellY = 50 / 2 + TankY;
+let enemyImages;
+let enemyImg;
 
 //clock declarations
 const clock = new Clock();
@@ -20,26 +19,30 @@ let secUni = document.getElementById("secUni");
 
 //sound declarations
 let soundtrack;
+let splatSound;
 
 function preload() {
   soundFormats("mp3");
-  soundtrack = loadSound("background_music.mp3");
-  imgExplosion = loadImage("explosion.png");
-  imgPlayer = loadImage("player-tank.png");
+  soundtrack = loadSound("sounds/background_music.mp3");
+  splatSound = loadSound("sounds/splat.mp3");
+  imgExplosion = loadImage("images/explosion.png");
+  imgPlayer = loadImage("images/player-tank.png");
+  enemyImages = ["images/mango.png", "images/pineapple.png"];
+  let pos = floor(random(enemyImages.length));
+  enemyImg = loadImage(enemyImages[pos]);
 }
 
-//p5 setup
+//p5 setup\\
 function setup() {
   const canvas = createCanvas(400, 600);
-  // canvas.mousePressed(canvasPressed);
   canvas.parent("game-screen");
   frameRate(30);
   speed = 2.5;
-  // translatedX = 100;
 }
 
+//PLAYER
 function playerTank() {
-  image(imgPlayer, TankX, TankY, 70, 70);
+  image(imgPlayer, TankX, TankY, 80, 80);
 
   if (TankX > 420) {
     TankX = -50;
@@ -69,8 +72,8 @@ function keyPressed() {
     playerShells.push({
       x: 50 / 2 + TankX,
       y: 50 / 2 + TankY,
-      w: 10,
-      h: 20,
+      w: 7,
+      h: 12,
     });
   }
 }
@@ -81,13 +84,18 @@ function drawPlayerShell(shell) {
   shell.y -= 3 * speed;
 }
 
-function drawPlayerExplosion() {}
-
-//enemies
+//ENEMIES
 function drawEnemyTank(enemy) {
-  fill("black");
-  noStroke();
-  square(enemy.x, enemy.y, 45);
+  // fill("black");
+  // noStroke();
+  // square(enemy.x, enemy.y, 45);
+  // let randomEnemyImg = enemyImgArray[random(0, 2)];
+
+  // enemyImages = ["images/mango.png", "images/pineapple.png"];
+  // let pos = floor(random(enemyImages.length));
+  // enemyImg = loadImage(enemyImages[pos]);
+
+  image(enemyImg, enemy.x, enemy.y, 80, 80);
 
   enemy.y += speed;
 }
@@ -107,22 +115,23 @@ function enemyFire(number) {
     enemy.shells.push({
       x: 45 / 2 + enemy.x,
       y: 45 / 2 + enemy.y,
-      w: 10,
-      h: 20,
+      w: 7,
+      h: 12,
     });
   });
 }
 
 function drawShell(shell) {
   fill("red");
-  rect(shell.x, shell.y, 10, 20);
+  rect(shell.x, shell.y, 7, 12);
   shell.y += 3 * speed;
 }
 
 //**p5 Draw function**\\
 //                     \\
 function draw() {
-  background("green");
+  let darkGreen = color("rgb(17, 40, 21)");
+  background(darkGreen);
   playerTank();
 
   playerShells = playerShells.filter((shell) => {
@@ -132,6 +141,11 @@ function draw() {
 
       if (collision) {
         image(imgExplosion, shell.x, shell.y, 80, 80);
+        splatSound.play();
+        // enemies.slice(hitEnemy);
+        // console.log(enemies.findIndex());
+        console.log(enemy);
+        console.log(enemies);
       }
     });
 
@@ -171,7 +185,6 @@ function draw() {
         }, 300);
       }
       drawShell(shell);
-      //how to filter out the enemy shells in this function?
     });
     if (enemy.y > height) {
       return false;
@@ -196,7 +209,7 @@ function startGame() {
 
   setInterval(() => {
     spawnEnemies(6);
-  }, 3000);
+  }, 2400);
   setInterval(() => {
     enemyFire(4);
   }, 1500);

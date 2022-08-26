@@ -43,7 +43,7 @@ function setup() {
   speed = 2.5;
 }
 
-//PLAYER
+//PLAYER\\
 function playerTank() {
   image(imgPlayer, TankX, TankY, 80, 80);
 
@@ -87,7 +87,7 @@ function drawPlayerShell(shell) {
   shell.y -= 3 * speed;
 }
 
-//ENEMIES
+//ENEMIES\\
 function drawEnemyTank(enemy) {
   // fill("black");
   // noStroke();

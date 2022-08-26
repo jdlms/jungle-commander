@@ -37,13 +37,13 @@ class Clock {
     if (minTimeStamp === 0) {
       return `You survived 00:${this.computeTwoDigitNumber(
         this.currentTime
-      )} seconds and scored ${count} direct hits, Commander.`;
+      )} seconds & scored ${count} direct hits, Commander.`;
     } else {
       return `You survived ${this.computeTwoDigitNumber(
         minTimeStamp
       )}:${this.computeTwoDigitNumber(
         secTimeStamp
-      )}minutes and scored ${count} direct hits, Commander.`;
+      )}minutes & scored ${count} direct hits, Commander.`;
     }
   }
 }

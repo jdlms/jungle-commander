@@ -10,6 +10,9 @@ let imgPlayer;
 let enemyImages;
 let enemyImg;
 let count = 0;
+let toggle = 0;
+let startingText = "shoot the fruit!";
+let startingTextY = 600;
 
 //clock declarations
 const clock = new Clock();
@@ -43,9 +46,19 @@ function setup() {
   speed = 2.5;
 }
 
+function scrollingText() {
+  textSize(40);
+  textFont("Georgia");
+  textAlign(CENTER, CENTER);
+  fill("red");
+  text(startingText, 200, startingTextY);
+
+  startingTextY = startingTextY - 7;
+}
+
 //PLAYER\\
 function playerTank() {
-  image(imgPlayer, TankX, TankY, 80, 80);
+  image(imgPlayer, TankX, TankY, 65, 65);
 
   if (TankX > 420) {
     TankX = -50;
@@ -108,7 +121,7 @@ function spawnEnemies(number) {
     x: random(0, 350),
     y: 0,
     w: 45,
-    h: 45,
+    h: 50,
     shells: [],
   });
 }
@@ -138,6 +151,10 @@ function draw() {
   background(darkGreen);
   playerTank();
 
+  if (toggle == 1) {
+    scrollingText();
+  }
+
   playerShells = playerShells.filter((shell) => {
     drawPlayerShell(shell);
     enemies.filter((enemy) => {
@@ -166,8 +183,8 @@ function draw() {
     const collision = collisionBetweenTwoRectangles(enemy, {
       x: TankX,
       y: TankY,
-      w: 50,
-      h: 50,
+      w: 65,
+      h: 65,
     });
 
     if (collision) {
@@ -183,8 +200,8 @@ function draw() {
       const collision = collisionBetweenTwoRectangles(shell, {
         x: TankX,
         y: TankY,
-        w: 50,
-        h: 50,
+        w: 65,
+        h: 65,
       });
 
       if (collision) {
@@ -205,7 +222,6 @@ function draw() {
 window.onload = () => {
   document.getElementById("start-button").onclick = () => {
     startGame();
-
     soundtrack.loop();
     soundtrack.volume(0.3);
   };
@@ -215,20 +231,23 @@ function startGame() {
   document.getElementById("game-begin").classList.add("hidden");
   document.getElementById("game-screen").classList.toggle("hidden");
 
+  toggle = 1;
+
   //start clock
   clock.start(printClock);
 
   setInterval(() => {
     spawnEnemies(9);
-  }, 1400);
+  }, 2000);
   setInterval(() => {
     enemyFire(4);
-  }, 1500);
+  }, 2100);
   loop();
 }
 
 function gameOver() {
   background("red");
+  image(imgExplosion, TankX, TankY, 90, 90);
   noLoop();
 
   clock.stop();
@@ -239,6 +258,11 @@ function gameOver() {
     let displayClock = document.getElementById("gameover");
     displayClock.innerHTML = clock.split();
   }, 1000);
+
+  setTimeout(() => {
+    document.location.reload();
+    toggle = 0;
+  }, 5800);
 }
 
 function collisionBetweenTwoRectangles(rect1, rect2) {

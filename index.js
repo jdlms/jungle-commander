@@ -21,11 +21,13 @@ let secUni = document.getElementById("secUni");
 //sound declarations
 let soundtrack;
 let splatSound;
+let gameEndSound;
 
 function preload() {
   soundFormats("mp3");
-  soundtrack = loadSound("sounds/background_music.mp3");
-  splatSound = loadSound("sounds/splat.mp3");
+  soundtrack = createAudio("sounds/background_music.mp3");
+  splatSound = createAudio("sounds/splat.mp3");
+  gameEndSound = createAudio("sounds//game-end.mp3");
   imgExplosion = loadImage("images/explosion.png");
   imgPlayer = loadImage("images/player-tank.png");
   enemyImages = ["images/mango.png", "images/pineapple.png"];
@@ -144,11 +146,12 @@ function draw() {
       if (collision) {
         image(imgExplosion, 45 / 2 + enemy.x, 45 / 2 + enemy.y, 95, 95);
         splatSound.play();
+        splatSound.volume(0.6);
         let hitEnemy = enemies.indexOf(enemy);
         enemies.splice(hitEnemy, 1);
         shell.y = false;
         shell.x = false;
-        count++
+        count++;
       }
     });
 
@@ -173,8 +176,8 @@ function draw() {
       // let hitEnemy = enemies.indexOf(enemy);
       // enemies.splice(hitEnemy, 1);
       splatSound.play();
+      splatSound.volume(0.6);
       gameOver();
-      
     }
     enemy.shells.forEach((shell) => {
       const collision = collisionBetweenTwoRectangles(shell, {
@@ -187,6 +190,8 @@ function draw() {
       if (collision) {
         image(imgExplosion, TankX, TankY, 80, 80);
         gameOver();
+        gameEndSound.play();
+        gameEndSound.volume(0.9);
       }
       drawShell(shell);
     });
@@ -200,7 +205,9 @@ function draw() {
 window.onload = () => {
   document.getElementById("start-button").onclick = () => {
     startGame();
+
     soundtrack.loop();
+    soundtrack.volume(0.3);
   };
 };
 
@@ -223,6 +230,7 @@ function startGame() {
 function gameOver() {
   background("red");
   noLoop();
+
   clock.stop();
   setTimeout(() => {
     soundtrack.stop();

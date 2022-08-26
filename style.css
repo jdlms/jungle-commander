@@ -62,7 +62,7 @@ h1 {
 body button {
   font-size: 20px;
   background-color: bisque;
-  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
   color: rgb(45, 97, 41);
   padding: 10px 20px;
   border: 0;

@@ -14,6 +14,8 @@ let toggle = 0;
 let startingText = "shoot the fruit!";
 let startingTextY = 600;
 
+let explosions = [];
+
 //clock declarations
 const clock = new Clock();
 let minDec = document.getElementById("minDec");
@@ -33,9 +35,9 @@ function preload() {
   gameEndSound = createAudio("sounds//game-end.mp3");
   imgExplosion = loadImage("images/explosion.png");
   imgPlayer = loadImage("images/player-tank.png");
-  enemyImages = ["images/mango.png", "images/pineapple.png"];
-  let pos = floor(random(enemyImages.length));
-  enemyImg = loadImage(enemyImages[pos]);
+  enemyImages = ["images/mango.png", "images/pineapple.png"].map((source) =>
+    loadImage(source)
+  );
 }
 
 //p5 setup\\
@@ -44,6 +46,7 @@ function setup() {
   canvas.parent("game-screen");
   frameRate(30);
   speed = 2.5;
+  noLoop();
 }
 
 function scrollingText() {
@@ -102,16 +105,10 @@ function drawPlayerShell(shell) {
 
 //ENEMIES\\
 function drawEnemyTank(enemy) {
-  // fill("black");
-  // noStroke();
-  // square(enemy.x, enemy.y, 45);
-  // let randomEnemyImg = enemyImgArray[random(0, 2)];
-
-  // enemyImages = ["images/mango.png", "images/pineapple.png"];
-  // let pos = floor(random(enemyImages.length));
-  // enemyImg = loadImage(enemyImages[pos]);
-
-  image(enemyImg, enemy.x, enemy.y, 80, 80);
+  image(enemy.img, enemy.x, enemy.y, 80, 80);
+  noFill();
+  stroke("red");
+  rect(enemy.x, enemy.y, 80, 80);
 
   enemy.y += speed;
 }
@@ -123,6 +120,7 @@ function spawnEnemies(number) {
     w: 45,
     h: 50,
     shells: [],
+    img: enemyImages[floor(random(enemyImages.length))],
   });
 }
 
@@ -143,6 +141,21 @@ function drawShell(shell) {
   shell.y += 3 * speed;
 }
 
+function newExplosion(x, y, w, h) {
+  explosions.push({
+    x,
+    y,
+    w,
+    h,
+    ttl: 30,
+  });
+}
+
+function drawExplosion(explosion) {
+  image(imgExplosion, explosion.x, explosion.y, explosion.w, explosion.h);
+  explosion.ttl--;
+}
+
 //                   \\
 //**p5 Draw function**\\
 //                     \\
@@ -155,22 +168,26 @@ function draw() {
     scrollingText();
   }
 
+  explosions = explosions.filter((explosion) => {
+    drawExplosion(explosion);
+    return explosion.ttl > 0;
+  });
+
   playerShells = playerShells.filter((shell) => {
     drawPlayerShell(shell);
-    enemies.filter((enemy) => {
+    for (let enemy of enemies) {
       const collision = collisionBetweenTwoRectangles(enemy, shell);
 
       if (collision) {
-        image(imgExplosion, 45 / 2 + enemy.x, 45 / 2 + enemy.y, 95, 95);
+        newExplosion(enemy.x, enemy.y, 80, 80);
         splatSound.play();
         splatSound.volume(0.6);
         let hitEnemy = enemies.indexOf(enemy);
         enemies.splice(hitEnemy, 1);
-        shell.y = false;
-        shell.x = false;
         count++;
+        return false;
       }
-    });
+    }
 
     if (shell.y <= -1) {
       return false;
@@ -187,15 +204,6 @@ function draw() {
       h: 65,
     });
 
-    if (collision) {
-      image(imgExplosion, enemy.x, enemy.y, 80, 80);
-      // console.log(enemies)
-      // let hitEnemy = enemies.indexOf(enemy);
-      // enemies.splice(hitEnemy, 1);
-      splatSound.play();
-      splatSound.volume(0.6);
-      gameOver();
-    }
     enemy.shells.forEach((shell) => {
       const collision = collisionBetweenTwoRectangles(shell, {
         x: TankX,
@@ -212,6 +220,13 @@ function draw() {
       }
       drawShell(shell);
     });
+
+    if (collision) {
+      newExplosion(enemy.x, enemy.y, 80, 80);
+      splatSound.play();
+      splatSound.volume(0.6);
+      return false;
+    }
     if (enemy.y > height) {
       return false;
     }
@@ -223,7 +238,7 @@ window.onload = () => {
   document.getElementById("start-button").onclick = () => {
     startGame();
     soundtrack.loop();
-    soundtrack.volume(0.3);
+    soundtrack.volume(0.2);
   };
 };
 

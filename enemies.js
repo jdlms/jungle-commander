@@ -31,7 +31,8 @@ function enemyFire(number) {
 }
 
 function drawShell(shell) {
-  fill("red");
+  noStroke();
+  fill("rgb(255, 51,51)");
   rect(shell.x, shell.y, 7, 12);
   shell.y += 3 * speed;
 }

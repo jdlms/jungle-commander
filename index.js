@@ -101,7 +101,8 @@ function keyPressed() {
 }
 
 function drawPlayerShell(shell) {
-  fill("red");
+  noStroke();
+  fill("rgb(255, 51,51)");
   rect(shell.x, shell.y, shell.w, shell.h);
   shell.y -= 3 * speed;
 }

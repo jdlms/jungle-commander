@@ -35,9 +35,11 @@ function preload() {
   gameEndSound = createAudio("sounds//game-end.mp3");
   imgExplosion = loadImage("images/explosion.png");
   imgPlayer = loadImage("images/player-tank.png");
-  enemyImages = ["images/mango.png", "images/pineapple.png"].map((source) =>
-    loadImage(source)
-  );
+  enemyImages = [
+    "images/mango.png",
+    "images/pineapple.png",
+    "images/watermelon.png",
+  ].map((source) => loadImage(source));
 }
 
 //p5 setup\\

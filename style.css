@@ -6,11 +6,16 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-image: url(images/su-san-lee-g3PyXO4A0yc-unsplash.jpg);
+  background-image: url(images/jungle.jpg);
+}
+
+@font-face {
+  font-family: BlackOpsOne;
+  src: url(font/BlackOpsOne.ttf);
 }
 
 h1 {
-  font-family: "Black Ops One";
+  font-family: BlackOpsOne;
   font-size: 60px;
   margin-top: 0;
   margin-bottom: 0;
@@ -52,7 +57,7 @@ body button {
   width: 600vw;
   background-color: red;
   border-radius: 8%;
-  font-family: "Black Ops One";
+  font-family: BlackOpsOne;
   font-size: 30px;
   color: bisque;
 }

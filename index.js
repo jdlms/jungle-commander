@@ -1,9 +1,11 @@
 //game item declarations
+let player = [];
+
 let playerShells = [];
 let enemies = [];
 let enemyShells = [];
-let TankX = 180;
-let TankY = 500;
+let TankX;
+let TankY;
 let SPACE_BAR = 32;
 let imgExplosion;
 let imgPlayer;
@@ -62,38 +64,40 @@ function scrollingText() {
   startingTextY = startingTextY - 8;
 }
 
-//PLAYER\\
 function playerTank() {
-  image(imgPlayer, TankX, TankY, 65, 65);
+  player.push({
+    x: 180,
+    y: 500,
+    w: 65,
+    h: 65,
+  });
+}
 
-  if (TankX > 420) {
-    TankX = -50;
-  }
-  if (TankX < -50) {
-    TankX = 400;
-  }
-  if (TankY >= 554) {
-    TankY = 554;
-  }
+function drawPlayer(player) {
+  image(imgPlayer, player.x, player.y, player.w, player.h);
+}
+
+//PLAYER\\
+function movement(player) {
   if (keyIsDown(LEFT_ARROW)) {
-    TankX -= speed;
+    player.x -= speed;
   }
   if (keyIsDown(RIGHT_ARROW)) {
-    TankX += speed;
+    player.x += speed;
   }
   if (keyIsDown(UP_ARROW)) {
-    TankY -= speed;
+    player.y -= speed;
   }
   if (keyIsDown(DOWN_ARROW)) {
-    TankY += speed;
+    player.y += speed;
   }
 }
 
 function keyPressed() {
   if (keyCode === 32) {
     playerShells.push({
-      x: 50 / 2 + TankX,
-      y: 50 / 2 + TankY,
+      x: 50 / 2 + player[0].x,
+      y: 50 / 2 + player[0].y,
       w: 7,
       h: 12,
     });

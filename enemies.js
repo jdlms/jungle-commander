@@ -1,10 +1,6 @@
 //ENEMIES\\
 function drawEnemyTank(enemy) {
   image(enemy.img, enemy.x, enemy.y, 65, 65);
-  // noFill();
-  // stroke("red");
-  // rect(enemy.x, enemy.y, 80, 80);
-
   enemy.y += speed;
 }
 

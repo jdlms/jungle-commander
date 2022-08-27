@@ -15,6 +15,7 @@ function startGame() {
   //start clock
   clock.start(printClock);
 
+  playerTank();
   setInterval(() => {
     spawnEnemies(9);
   }, 2000);

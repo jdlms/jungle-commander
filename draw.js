@@ -1,7 +1,6 @@
 function draw() {
   let darkGreen = color("rgb(17, 40, 21)");
   background(darkGreen);
-  playerTank();
 
   if (toggle == 1) {
     scrollingText();
@@ -10,6 +9,12 @@ function draw() {
   explosions = explosions.filter((explosion) => {
     drawExplosion(explosion);
     return explosion.ttl > 0;
+  });
+
+  player = player.filter((player) => {
+    drawPlayer(player);
+    movement(player);
+    return true;
   });
 
   playerShells = playerShells.filter((shell) => {
@@ -36,23 +41,13 @@ function draw() {
 
   enemies = enemies.filter((enemy) => {
     drawEnemyTank(enemy);
-    const collision = collisionBetweenTwoRectangles(enemy, {
-      x: TankX,
-      y: TankY,
-      w: 65,
-      h: 65,
-    });
+    const collision = collisionBetweenTwoRectangles(enemy, player[0]);
 
     enemy.shells.forEach((shell) => {
-      const collision = collisionBetweenTwoRectangles(shell, {
-        x: TankX,
-        y: TankY,
-        w: 65,
-        h: 65,
-      });
+      const collision = collisionBetweenTwoRectangles(shell, player[0]);
 
       if (collision) {
-        image(imgExplosion, TankX, TankY, 80, 80);
+        image(imgExplosion, player[0].x, player[0].y, 80, 80);
         gameOver();
         gameEndSound.play();
         gameEndSound.volume(0.2);

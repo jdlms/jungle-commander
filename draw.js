@@ -44,15 +44,10 @@ function draw() {
     const collision = collisionBetweenTwoRectangles(enemy, player[0]);
 
     enemy.shells.forEach((shell) => {
-      const collision = collisionBetweenTwoRectangles(shell, {
-        x: TankX,
-        y: TankY,
-        w: 65,
-        h: 65,
-      });
+      const collision = collisionBetweenTwoRectangles(shell, player[0]);
 
       if (collision) {
-        image(imgExplosion, TankX, TankY, 80, 80);
+        image(imgExplosion, player[0].x, player[0].y, 80, 80);
         gameOver();
         gameEndSound.play();
         gameEndSound.volume(0.2);

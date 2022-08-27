@@ -1,6 +1,6 @@
 function gameOver() {
   background("red");
-  image(imgExplosion, TankX, TankY, 90, 90);
+  image(imgExplosion, player[0].x, player[0].y, 90, 90);
   noLoop();
 
   clock.stop();

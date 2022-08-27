@@ -12,6 +12,16 @@ function drawPlayer(player) {
 }
 
 function movement(player) {
+  if (player.x > 420) {
+    player.x = -50;
+  }
+  if (player.x < -50) {
+    player.x = 400;
+  }
+  if (player.y >= 554) {
+    player.y = 554;
+  }
+
   if (keyIsDown(LEFT_ARROW)) {
     player.x -= speed;
   }

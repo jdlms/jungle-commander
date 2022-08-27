@@ -11,8 +11,9 @@ let enemyImages;
 let enemyImg;
 let count = 0;
 let toggle = 0;
-let startingText = "shoot the fruit!";
-let startingTextY = 600;
+let startingText = "splat the fruit!";
+let startingTextY = 400;
+let BlackOpsOneFont;
 
 let explosions = [];
 
@@ -29,6 +30,7 @@ let splatSound;
 let gameEndSound;
 
 function preload() {
+  BlackOpsOneFont = loadFont("font/BlackOpsOne.ttf");
   soundFormats("mp3");
   soundtrack = createAudio("sounds/background_music.mp3");
   splatSound = createAudio("sounds/splat.mp3");
@@ -53,12 +55,11 @@ function setup() {
 
 function scrollingText() {
   textSize(40);
-  textFont("Georgia");
+  textFont(BlackOpsOneFont);
   textAlign(CENTER, CENTER);
-  fill("red");
+  fill("rgb(255,288,196)");
   text(startingText, 200, startingTextY);
-
-  startingTextY = startingTextY - 7;
+  startingTextY = startingTextY - 8;
 }
 
 //PLAYER\\
@@ -107,10 +108,10 @@ function drawPlayerShell(shell) {
 
 //ENEMIES\\
 function drawEnemyTank(enemy) {
-  image(enemy.img, enemy.x, enemy.y, 80, 80);
-  noFill();
-  stroke("red");
-  rect(enemy.x, enemy.y, 80, 80);
+  image(enemy.img, enemy.x, enemy.y, 65, 65);
+  // noFill();
+  // stroke("red");
+  // rect(enemy.x, enemy.y, 80, 80);
 
   enemy.y += speed;
 }
@@ -149,7 +150,7 @@ function newExplosion(x, y, w, h) {
     y,
     w,
     h,
-    ttl: 30,
+    ttl: 14,
   });
 }
 
@@ -181,9 +182,9 @@ function draw() {
       const collision = collisionBetweenTwoRectangles(enemy, shell);
 
       if (collision) {
-        newExplosion(enemy.x, enemy.y, 80, 80);
+        newExplosion(enemy.x, enemy.y, 65, 65);
         splatSound.play();
-        splatSound.volume(0.6);
+        splatSound.volume(0.3);
         let hitEnemy = enemies.indexOf(enemy);
         enemies.splice(hitEnemy, 1);
         count++;
@@ -218,7 +219,7 @@ function draw() {
         image(imgExplosion, TankX, TankY, 80, 80);
         gameOver();
         gameEndSound.play();
-        gameEndSound.volume(0.9);
+        gameEndSound.volume(0.2);
       }
       drawShell(shell);
     });
@@ -226,7 +227,7 @@ function draw() {
     if (collision) {
       newExplosion(enemy.x, enemy.y, 80, 80);
       splatSound.play();
-      splatSound.volume(0.6);
+      splatSound.volume(0.3);
       return false;
     }
     if (enemy.y > height) {
@@ -240,7 +241,7 @@ window.onload = () => {
   document.getElementById("start-button").onclick = () => {
     startGame();
     soundtrack.loop();
-    soundtrack.volume(0.2);
+    soundtrack.volume(0.1);
   };
 };
 
@@ -279,7 +280,7 @@ function gameOver() {
   setTimeout(() => {
     document.location.reload();
     toggle = 0;
-  }, 5800);
+  }, 5000);
 }
 
 function collisionBetweenTwoRectangles(rect1, rect2) {

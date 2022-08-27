@@ -9,28 +9,25 @@ body {
   background-image: url(images/su-san-lee-g3PyXO4A0yc-unsplash.jpg);
 }
 
-.p5Canvas {
-  width: auto !important;
-  height: 100vh !important;
-}
-
-#game-begin {
-  height: 40vh;
-  width: 60vw;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: red;
-  border-radius: 8%;
-}
-
 h1 {
   font-family: "Black Ops One";
-  font-size: 50px;
+  font-size: 60px;
   margin-top: 0;
+
   padding-top: 0;
-  color: bisque;
+  color: rgb(255, 228, 196);
+}
+
+body button {
+  font-size: 20px;
+  background-color: bisque;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  padding: 10px 20px;
+  border: 0;
+  box-shadow: 5;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  border-radius: 5%;
 }
 
 #tank-shell {
@@ -59,20 +56,15 @@ h1 {
   align-items: center;
 }
 
-body button {
-  font-size: 20px;
-  background-color: bisque;
-  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
-  padding: 10px 20px;
-  border: 0;
-  box-shadow: 5;
-  border-radius: 5px;
-  margin-bottom: 20px;
-  border-radius: 5%;
-}
-
-.hidden {
-  display: none;
+#game-begin {
+  height: 40vh;
+  width: 60vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: red;
+  border-radius: 8%;
 }
 
 #game-begin.hidden {
@@ -80,5 +72,14 @@ body button {
 }
 
 #gameover.hidden {
+  display: none;
+}
+
+.p5Canvas {
+  width: auto !important;
+  height: 100vh !important;
+}
+
+.hidden {
   display: none;
 }
